@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>音频转换器</title>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+    form { display: flex; flex-direction: column; gap: 15px; }
+    button { padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+    select, input { padding: 8px; }
+  </style>
+</head>
+<body>
+  <h1>音频转换器</h1>
+  <form id="convertForm">
+    <input type="file" name="audio" accept="audio/*" required>
+    <select name="format" required>
+      <option value="mp3">MP3</option>
+      <option value="wav">WAV</option>
+      <option value="ogg">OGG</option>
+    </select>
+    <button type="submit">转换</button>
+  </form>
+
+  <script>
+    document.getElementById('convertForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const formData = new FormData(e.target);
+      
+      try {
+        const response = await fetch('/convert', {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (response.ok) {
+          const blob = await response.blob();
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `converted.${formData.get('format')}`;
+          a.click();
+        } else {
+          alert('转换失败');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('发生错误');
+      }
+    });
+  </script>
+</body>
+</html>

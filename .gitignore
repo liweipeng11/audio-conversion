@@ -1,0 +1,22 @@
+# 依赖目录
+node_modules/
+
+# 上传和转换文件目录
+uploads/
+converted/
+
+# IDE/编辑器目录
+.codebuddy/
+.vscode/
+.idea/
+
+# 环境变量文件
+.env
+.env.local
+
+# 日志文件
+*.log
+
+# 系统文件
+.DS_Store
+Thumbs.db
